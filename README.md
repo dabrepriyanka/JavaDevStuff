@@ -46,7 +46,7 @@ Future work :-
 it automatically fails over to the different service.
 3.  We can support batch requests and throttling can be implemented.
 4.  Currently Snailgun sender just calls the synchronous GET once. 
-But we can create a separate thread that makes the GET calls fromm time-to-time to get updated status of emails sent.  Logs can be updated accordingly.
+But we can create a separate thread that makes the GET calls from time-to-time to get updated status of emails sent.  Logs can be updated accordingly.
 
 Project Completion status :- 
 I was able to get the code done and hit the SpendGrid and SnailGun endpoints using the API_KEYS provided.  
