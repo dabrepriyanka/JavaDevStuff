@@ -37,16 +37,13 @@ After this, depending on the email sender configured, it will be forwarded to th
 
 Spendgrid sender - This service calls spendgrid sender in a synchronous fashion using Http libraries. It attempts to send the request using POST call and returns the result back to the client.
 Snailgun sender - If configured, snailgun sender is called in an asynchronous fashion using a POST call. 
-It receives an ID back from the service. It further uses the ID to make a GET call to get the status of the email.
-The status could be sent, queued or failed. It then returns the result back to the client.
+It receives an ID back from the service and returns it back to the client. 
 
 Future work :-
 1.  Send email with attachments feature can be provided.
 2.  Currently to switch from Spendgrid to Snailgun, we can make a config change(annotate the required class with @Primary). For future, we can configure so that if one service fails, 
 it automatically fails over to the different service.
 3.  We can support batch requests and throttling can be implemented.
-4.  Currently Snailgun sender just calls the synchronous GET once. 
-But we can create a separate thread that makes the GET calls from time-to-time to get updated status of emails sent.  Logs can be updated accordingly.
 
 Project Completion status :- 
 I was able to get the code done and hit the SpendGrid and SnailGun endpoints using the API_KEYS provided.  
