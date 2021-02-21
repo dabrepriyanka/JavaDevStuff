@@ -2,8 +2,10 @@ package com.example.sendemail.EmailSenders;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
 
 /**
  * The class used for marshalling and unmarshalling email as json 
@@ -17,10 +19,10 @@ public class EmailContext {
 	
 	@NotEmpty(message = "From name must not be empty")
 	private String from_name;
-	@NotEmpty(message = "From Email must not be empty")
+	@NotEmpty(message = "From email must not be empty")
     @Email(message = "From Email must be a valid email address")
 	private String from;
-	@NotEmpty(message = "To Email must not be empty")
+	@NotEmpty(message = "To email must not be empty")
     @Email(message = "To Email must be a valid email address")
 	private String to;
 	@NotEmpty(message = "To name must not be empty")

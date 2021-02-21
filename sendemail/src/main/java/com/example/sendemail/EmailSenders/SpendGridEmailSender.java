@@ -11,8 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+//import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.context.annotation.Primary;
 
 /**
  * This class implements the email sending using Spendgrid REST API service
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Primary;
  *
  */
 @Service
-@Primary
+//@Primary
 public class SpendGridEmailSender implements EmailServiceProvider {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpendGridEmailSender.class);
@@ -51,7 +51,7 @@ public class SpendGridEmailSender implements EmailServiceProvider {
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
-
+			
 			HttpRequest request = HttpRequest.newBuilder().uri(URI.create(URL))
 					.header(EmailSenderStrings.CONTENT_TYPE, EmailSenderStrings.APPLICATION_TYPE)
 					.header(EmailSenderStrings.X_API_KEY, APIKEY).POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -63,8 +63,8 @@ public class SpendGridEmailSender implements EmailServiceProvider {
 			HttpResponse<String> response = client.send(request, asString);
 
 			// check response status code
-			if (response.statusCode() == 200) {
-				LOG.info(String.format(EmailSenderStrings.EMAIL_SENDING_SUCCESSFUL, SPENDGRID));
+			if (response.statusCode() == 200 || response.statusCode() == 201) {
+				LOG.info(String.format(EmailSenderStrings.EMAIL_SENDING_SUCCESSFUL, SPENDGRID) + response.body());
 				result = new EmailResult(true, null);
 			} else {
 				LOG.error(String.format(EmailSenderStrings.EMAIL_SENDING_FAILED, SPENDGRID) + response.body());

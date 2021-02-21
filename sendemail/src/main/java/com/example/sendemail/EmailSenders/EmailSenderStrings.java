@@ -18,10 +18,10 @@ public class EmailSenderStrings {
 	protected static final String FAILED = "failed";
 
 	protected static final String X_API_KEY = "x-api-key";
-	protected static final String FROM_EMAIL = "from-email";
-	protected static final String FROM_NAME = "from-name";
-	protected static final String TO_EMAIL = "to-email";
-	protected static final String TO_NAME = "to-name";
+	protected static final String FROM_EMAIL = "from_email";
+	protected static final String FROM_NAME = "from_name";
+	protected static final String TO_EMAIL = "to_email";
+	protected static final String TO_NAME = "to_name";
 	protected static final String SUBJECT = "subject";
 	protected static final String BODY = "body";
 	protected static final String ID = "users_qHWglBEyDq3LrrD5r8lHVObR";

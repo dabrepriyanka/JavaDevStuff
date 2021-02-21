@@ -15,17 +15,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
-//@Primary
+@Primary
 public class SnailGunEmailSender implements EmailServiceProvider {
   private static final Logger LOG = LoggerFactory.getLogger(SnailGunEmailSender.class);
 
   private static final String APIKEY = "api_key_77Nf7aKxrrec3sbGjebbXogP";
   private static final String SNAILGUN = "SnailGun";
-  private static final String POST_URL = "https://bw-interviews.herokuapp.com/snailgun/send_email";
+  private static final String POST_URL = "https://bw-interviews.herokuapp.com/snailgun/emails";
   private static final String GET_URL = "https://bw-interviews.herokuapp.com/snailgun/emails";
 
   ObjectMapper objectMapper;
@@ -62,12 +62,16 @@ public class SnailGunEmailSender implements EmailServiceProvider {
       completableFuture.thenApplyAsync(HttpResponse::headers).thenAcceptAsync(System.out::println);
       HttpResponse<String> response = completableFuture.join();
       if (response.statusCode() == 200) {
-        LOG.info(String.format(EmailSenderStrings.EMAIL_SENDING_SUCCESSFUL, SNAILGUN));
+        LOG.info(String.format(EmailSenderStrings.EMAIL_SENDING_QUEUED, SNAILGUN));
+        result = new EmailResult(true, EmailSenderStrings.EMAIL_SENDING_QUEUED);
+        //Return ID
       } else {
-        LOG.error(String.format(EmailSenderStrings.EMAIL_SENDING_FAILED, SNAILGUN) + response.body());
+        LOG.error(String.format(EmailSenderStrings.EMAIL_SENDING_FAILED, SNAILGUN) +response.statusCode()+ response.body());
+        result = new EmailResult(false, EmailSenderStrings.EMAIL_SENDING_FAILED);
       }
-      ClientResponse clientResponse = objectMapper.readValue(response.body(), ClientResponse.class);
-      result = getEmailStatusFromService(emailContext, clientResponse.id);
+      
+      //ClientResponse clientResponse = objectMapper.readValue(response.body(), ClientResponse.class);
+      //result = getEmailStatusFromService(emailContext, clientResponse.id);
 
     } catch (Exception e) {
       LOG.error(String.format(EmailSenderStrings.EMAIL_SENDING_FAILED, SNAILGUN), e);
@@ -78,7 +82,7 @@ public class SnailGunEmailSender implements EmailServiceProvider {
     return result;
   }
 
-  public EmailResult getEmailStatusFromService(EmailContext emailContext, String responseId) {
+  /*public EmailResult getEmailStatusFromService(EmailContext emailContext, String responseId) {
     EmailResult result = null;
     try {
       HttpRequest request = HttpRequest.newBuilder().uri(URI.create(GET_URL + "/" + responseId))
@@ -91,6 +95,9 @@ public class SnailGunEmailSender implements EmailServiceProvider {
       HttpResponse<String> response = client.send(request, asString);
 
       ClientResponse clientResponse = objectMapper.readValue(response.body(), ClientResponse.class);
+
+      System.out.println("Response status" + clientResponse.status);
+      System.out.println("Response code" + response.statusCode());
 
       // check response status code
       if (clientResponse.status == EmailSenderStrings.QUEUED) {
@@ -112,7 +119,7 @@ public class SnailGunEmailSender implements EmailServiceProvider {
       result.setServiceIsDown(true);
     }
     return result;
-  }
+  }*/
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   static class ClientResponse {
