@@ -12,6 +12,7 @@ This can be changed to use Snailgun email sender by simply annotating the SnailG
 
 Example Request:-
 
+```
 POST /send_email
 Headers:
 Content-Type: application/json
@@ -25,6 +26,7 @@ Payload:-
 "body": "<h1>Weekly Report</h1><p>You saved 10 hours this
 week!</p>"
 }
+```
 
 Validation :- 
 1. All the above fields are mandatory. 
